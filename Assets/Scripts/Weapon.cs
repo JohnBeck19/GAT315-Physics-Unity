@@ -1,20 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour
 {
     [SerializeField] GameObject ammo;
     [SerializeField] Transform emission;
+    [SerializeField] float fireRate;
     [SerializeField] AudioSource audioSource;
 
-    // Update is called once per frame
+    bool fireReady = true;
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (fireReady && Input.GetMouseButton(0))
         {
-            Instantiate(ammo, transform.position, transform.rotation);
+            Instantiate(ammo, emission.position, emission.rotation);
             audioSource.Play();
+            fireReady = false;
+            StartCoroutine(FireTimer(fireRate));
         }
+    }
+
+    IEnumerator FireTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        fireReady = true;
     }
 }

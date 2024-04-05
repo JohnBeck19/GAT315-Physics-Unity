@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Block : MonoBehaviour
 {
-    [SerializeField] int points = 100;
+    [SerializeField] IntVariable points;
     [SerializeField] AudioSource audioSource;
 
     Rigidbody rb;
@@ -27,7 +27,7 @@ public class Block : MonoBehaviour
     {
         if (!destroyed && other.CompareTag("Kill") && rb.velocity.magnitude == 0 && rb.angularVelocity.magnitude == 0)
         {
-            print(points);
+            points.value += 100;
             destroyed = true;
             Destroy(gameObject,3);
         }
