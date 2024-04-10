@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -10,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] float pushPower = 1.0f;
     [SerializeField] float rotationRate = 3.0f;
     [SerializeField] Transform view;
+    [SerializeField] Animator animator;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -22,6 +24,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -47,6 +50,13 @@ public class CharacterMovement : MonoBehaviour
 
         playerVelocity.y += Physics.gravity.y * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            animator.SetBool("Equipped", !animator.GetBool("Equipped"));
+        }
+        animator.SetFloat("Speed", move.magnitude);
+        animator.SetFloat("YVelocity", playerVelocity.y);
+        animator.SetBool("OnGround", controller.isGrounded);
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
     {

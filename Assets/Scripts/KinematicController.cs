@@ -5,6 +5,7 @@ using UnityEngine;
 public class KinematicController : MonoBehaviour
 {
     [SerializeField] float speed = 1;
+    [SerializeField] float rotationSpeed = 0.25f;
     [SerializeField] Space space = Space.World;
     void Update()
     {
@@ -17,7 +18,7 @@ public class KinematicController : MonoBehaviour
         direction.z = Input.GetAxis("Vertical");
         direction =  Vector3.ClampMagnitude(direction, 1);
 
-        transform.rotation *= Quaternion.Euler(0,rotation*speed,0);
+        transform.rotation *= Quaternion.Euler(0,rotation*rotationSpeed,0);
         transform.Translate(direction * speed * Time.deltaTime, space);
     }
     private void OnDrawGizmos()
